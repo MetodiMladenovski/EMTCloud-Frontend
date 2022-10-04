@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import {Link} from "react-router-dom";
 
-const buckets = (props) => {
+const Buckets = (props) => {
+    const [enteredBucket, setEnteredBucket] = useState("");
+
     return (
 
       <div className={"container mm-4 mt-5"}>
-          <h3>Buckets</h3>
+          <h3 style={{textAlign: "center", color: "#00CED1"}}>Buckets</h3>
+          <br></br>
           <div className={"row"}>
               <div className={"row"}>
                   <table className={"table table-striped"}>
@@ -27,7 +30,9 @@ const buckets = (props) => {
                                   </td>
                                   <td scope={"col"} className={"text-right"}>
                                       <a title={"Enter"} className={"btn btn-danger"}
-                                      onClick={() => props.onClick(term.id.id)}>
+                                      onClick={() => {
+                                        setEnteredBucket(term.id.id)
+                                        props.onEnter(term.id.id)}}>
                                           Enter</a>
                                   </td>
                               </tr>
@@ -39,7 +44,8 @@ const buckets = (props) => {
           </div>
 
               <div className={"container mm-4 mt-5"}>
-                  <h3>Files</h3>
+                  <h3 style={{textAlign: "center", color: "#00CED1"}}>Files</h3>
+                  <br></br>
                   <div className={"row"}>
                       <div className={"row"}>
                           <table className={"table table-striped"}>
@@ -48,7 +54,6 @@ const buckets = (props) => {
                                   <th scope={"col"}>Name</th>
                                   <th scope={"col"}>DownloadURL</th>
                                   <th scope={"col"}>Type</th>
-                                  <th scope={"col"}>File Content ID</th>
                               </tr>
                               </thead>
                               <tbody>
@@ -58,7 +63,15 @@ const buckets = (props) => {
                                           <td scope={"col"}>{term.name}</td>
                                           <td scope={"col"}>{term.url}</td>
                                           <td scope={"col"}>{term.type}</td>
-                                          <td scope={"col"}>{term.fileContentId}</td>
+                                          <td scope={"col"} className={"text-right"}>
+                                                <a title={"Delete"} className={"btn btn-danger"}
+                                                     onClick={() => props.onDeleteFile(term.id.id, enteredBucket)}>Delete</a>
+                                            </td>
+                                            <td scope={"col"} className={"text-right"}>
+                                                <a title={"Enter"} className={"btn btn-danger"}
+                                                    onClick={() => props.onDownload(term.id.id)}>
+                                            Download</a>
+                                  </td>
                                       </tr>
                                   )
                               })}
@@ -71,4 +84,4 @@ const buckets = (props) => {
     );
 }
 
-export default buckets;
+export default Buckets;
