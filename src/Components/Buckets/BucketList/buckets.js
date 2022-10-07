@@ -1,13 +1,50 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const Buckets = (props) => {
+
     const [enteredBucket, setEnteredBucket] = useState("");
+
+    const [formData, updateFormData] = React.useState({
+        name: "",
+    })
+
+    const handleChange = (e) => {
+        updateFormData({
+            ...formData,
+            [e.target.name]: e.target.value.trim()
+        })
+    }
+    const navigate = useNavigate();
+
+    const onFormSubmit = (e) => {
+        e.preventDefault();
+        const name = formData.name;
+        const userId = localStorage.getItem("userId");
+        props.onCreateBucket(userId, name);
+        navigate("/buckets");
+    }
+ 
 
     return (
 
       <div className={"container mm-4 mt-5"}>
           <h3 style={{textAlign: "center", color: "#00CED1"}}>Buckets</h3>
+          <br></br>
+          <form onSubmit={onFormSubmit}>
+          <div className="form-group" style={{width: 15 + "em", display: "inline-block", marginRight: 2 + "em"}}>
+                        <label htmlFor="name">Bucket name</label>
+                        <input type="text"
+                               className="form-control"
+                               id="name"
+                               name="name"
+                               placeholder="FirstBucket"
+                               onChange={handleChange}
+                        />
+                    </div>
+          <button id="submit" type="submit" className="btn btn-primary" style={{position: "inline"}}>Create Bucket</button>
+          </form>
+          <br></br>
           <br></br>
           <div className={"row"}>
               <div className={"row"}>
@@ -68,8 +105,8 @@ const Buckets = (props) => {
                                                      onClick={() => props.onDeleteFile(term.id.id, enteredBucket)}>Delete</a>
                                             </td>
                                             <td scope={"col"} className={"text-right"}>
-                                                <a title={"Enter"} className={"btn btn-danger"}
-                                                    onClick={() => props.onDownload(term.id.id)}>
+                                                <a title={"Enter"} className={"btn btn-danger"} style={{backgroundColor: "limegreen", borderColor: "green"}}
+                                                    onClick={() => props.onDownload(term.id.id, enteredBucket, term.name)}>
                                             Download</a>
                                   </td>
                                       </tr>

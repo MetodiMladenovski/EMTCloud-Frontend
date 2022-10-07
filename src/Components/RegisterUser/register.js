@@ -1,5 +1,6 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
+import CenteredContainer from "../UtilComponents/CenteredContainer";
 
 const register = (props) => {
 
@@ -34,105 +35,114 @@ const register = (props) => {
         const cityAddress = formData.cityAddress
         const numberAddress = formData.numberAddress
         const streetAddress = formData.streetAddress
-        const companyId = formData.companyId
+        const company = formData.company
 
-        props.onRegisterUser(fullName, email, password, repeatedPassword, cityAddress, numberAddress, streetAddress, companyId);
-        navigate("/buckets")
+        props.onRegisterUser(fullName, email, password, repeatedPassword, cityAddress, numberAddress, streetAddress, company);
+        navigate("/login")
     }
 
     return(
-        <div className="row mt-5">
-            <div className="col-md-5">
+        <CenteredContainer>
+            <h3 style={{textAlign: "center", color: "#00CED1"}}>Register Account</h3>
+            <br></br>
                 <form onSubmit={onFormSubmit}>
                     <div className="form-group">
-                        <label htmlFor="fullName">User full name</label>
+                        <label htmlFor="fullName">Full name</label>
                         <input type="text"
                                className="form-control"
                                id="fullName"
                                name="fullName"
                                required
-                               placeholder="Full name"
+                               placeholder="John Doe"
+                               style={{height: 100 + "%"}}
                                onChange={handleChange}
                         />
                     </div>
+                    <br></br>
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input type="text"
                                className="form-control"
                                id="email"
                                name="email"
-                               placeholder="Email"
+                               placeholder="johndoe@email.com"
                                required
                                onChange={handleChange}
                         />
                     </div>
+                    <br></br>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
                         <input type="password"
                                className="form-control"
                                id="password"
                                name="password"
-                               placeholder="Password"
+                               placeholder="moreCharacters@123"
                                required
                                onChange={handleChange}
                         />
                     </div>
+                    <br></br>
                     <div className="form-group">
                         <label htmlFor="repeatedPassword">Repeat Password</label>
                         <input type="password"
                                className="form-control"
                                id="repeatedPassword"
                                name="repeatedPassword"
-                               placeholder="Repeat Password"
+                               placeholder="moreCharacters@123"
                                required
                                onChange={handleChange}
                         />
                     </div>
+                    <br></br>
                     <div className="form-group">
                         <label htmlFor="cityAddress">City Address</label>
                         <input type="text"
                                className="form-control"
                                id="cityAddress"
                                name="cityAddress"
-                               placeholder="City Address"
+                               placeholder="New York"
                                required
                                onChange={handleChange}
                         />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="numberAddress">Number Address</label>
-                        <input type="text"
-                               className="form-control"
-                               id="numberAddress"
-                               name="numberAddress"
-                               placeholder="Number Address"
-                               required
-                               onChange={handleChange}
-                        />
-                    </div>
+                    <br></br>
                     <div className="form-group">
                         <label htmlFor="streetAddress">Street Address</label>
                         <input type="text"
                                className="form-control"
                                id="streetAddress"
                                name="streetAddress"
-                               placeholder="Street Address"
+                               placeholder="Times Square"
                                required
                                onChange={handleChange}
                         />
                     </div>
+                    <br></br>
                     <div className="form-group">
-                        <label>Category</label>
+                        <label htmlFor="numberAddress">Number Address</label>
+                        <input type="text"
+                               className="form-control"
+                               id="numberAddress"
+                               name="numberAddress"
+                               placeholder="1000"
+                               required
+                               onChange={handleChange}
+                        />
+                    </div>
+                    <br></br>
+                    <div className="form-group">
+                        <label>Company</label>
                         <select name="company" className="form-control" onChange={handleChange}>
                             {props.companies.map((term) =>
                                 <option value={term.id.id}>{term.name}</option>
                             )}
                         </select>
                     </div>
+                    <br></br>
                     <button id="submit" type="submit" className="btn btn-primary">Submit</button>
                 </form>
-            </div>
-        </div>
+        </CenteredContainer>
     )
 
 }

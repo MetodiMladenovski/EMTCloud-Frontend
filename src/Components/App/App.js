@@ -6,6 +6,7 @@ import Companies from "../Companies/companies";
 import Header from "../Header/header"
 import Register from "../RegisterUser/register"
 import EMTCloudService from "../../repository/emtCloudRepository";
+import Login from '../Login/login';
 
 class App extends Component {
 
@@ -25,8 +26,15 @@ class App extends Component {
                 <main>
                     <div className={"container"}>
                         <Routes>
+                            <Route path={"/"} element={<Login onLogin={this.fetchData}/>}/>
+                            <Route path={"/login"} element={<Login onLogin={this.fetchData}/>}/>
                             <Route path={"/register"} element={<Register companies={this.state.companies} onRegisterUser={this.registerUser}/>}/>
-                            <Route path={"/buckets"} element={<Buckets buckets={this.state.buckets} files={this.state.files} onDelete={this.deleteBucket} onClick={this.loadFiles}/>}/>
+                            <Route path={"/buckets"} element={<Buckets buckets={this.state.buckets} files={this.state.files} 
+                            onDelete={this.deleteBucket} 
+                            onEnter={this.loadFiles} 
+                            onDeleteFile={this.deleteFile} 
+                            onDownload={this.downloadFile}
+                            onCreateBucket={this.createBucket}/>}/>
                             <Route path={"/companies"} element={<Companies companies={this.state.companies}/>}/>
                         </Routes>
                     </div>
@@ -67,6 +75,20 @@ class App extends Component {
                 this.loadBuckets();
             })
     }
+    createBucket = (userId, name) => {
+        EMTCloudService.createBucket(userId, name)
+            .then(() => {
+                this.loadBuckets();
+            })
+    }
+
+    deleteFile = (fileId, bucketId) => {
+        EMTCloudService.deleteFile(fileId)
+            .then(() => {
+                this.loadFiles(bucketId);
+                this.loadBuckets();
+            })
+    }
 
     registerUser = (fullName, email, password, repeatedPassword, cityAddress, numberAddress, streetAddress, company) => {
         EMTCloudService.registerUser(fullName, email, password, repeatedPassword, cityAddress, numberAddress, streetAddress, company)
@@ -75,7 +97,25 @@ class App extends Component {
             })
     }
 
+    downloadFile = (fileId, bucketId, fileName) => {
+        EMTCloudService.downloadFile(fileId)
+            .then((resp) => {
+                const url = window.URL.createObjectURL(new Blob([resp.data]));
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", fileName);
+                document.body.appendChild(link);
+                link.click();
+                this.loadBuckets();
+                this.loadFiles(bucketId);
+            })
+    }
+
     componentDidMount() {
+        this.fetchData();
+    }
+
+    fetchData = () =>  {
         this.loadBuckets();
         this.loadCompanies();
     }
