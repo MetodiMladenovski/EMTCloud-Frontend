@@ -26,6 +26,9 @@ const EMTCloudService = {
             responseType: "blob",
         })
     },
+    uploadFile: (data, bucketId) => {
+        return axios.post(`/api/buckets/upload/${bucketId}`, data)
+    },
     registerUser: (fullName, email, password, repeatedPassword, cityAddress, numberAddress, streetAddress, company) => {
         return axios.post("/public/register", {
             "fullName" : fullName,

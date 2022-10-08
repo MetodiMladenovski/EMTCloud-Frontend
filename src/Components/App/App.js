@@ -34,7 +34,8 @@ class App extends Component {
                             onEnter={this.loadFiles} 
                             onDeleteFile={this.deleteFile} 
                             onDownload={this.downloadFile}
-                            onCreateBucket={this.createBucket}/>}/>
+                            onCreateBucket={this.createBucket}
+                            onUpload={this.uploadFile}/>}/>
                             <Route path={"/companies"} element={<Companies companies={this.state.companies}/>}/>
                         </Routes>
                     </div>
@@ -108,6 +109,15 @@ class App extends Component {
                 link.click();
                 this.loadBuckets();
                 this.loadFiles(bucketId);
+            })
+    }
+    uploadFile = (data, bucketId) => {
+        EMTCloudService.uploadFile(data, bucketId)
+            .then((resp) => {
+                console.log(resp.data)
+                this.loadBuckets();
+                this.loadFiles(bucketId);
+                alert("File uploaded successfully")
             })
     }
 
