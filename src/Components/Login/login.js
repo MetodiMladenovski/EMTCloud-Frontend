@@ -61,7 +61,7 @@ const Login = (props) => {
                         />
                     </div>
                     <br></br>
-                    <button id="submit" type="submit" className="btn btn-primary" >Submit</button>
+                    <button id="submit" type="submit" className="btn btn-primary" style={{marginLeft: 8 + "em"}}>Login</button>
                 </form>
         </CenteredContainer>
     )

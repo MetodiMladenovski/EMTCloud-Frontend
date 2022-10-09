@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 const Buckets = (props) => {
 
     const [enteredBucket, setEnteredBucket] = useState("");
+    const [enteredBucketName, setEnteredBucketName] = useState("");
 
     const [selectedFile, setSelectedFile] = useState("");
     const [uploadBucketId, setUploadBucketId] = useState("");
@@ -84,7 +85,8 @@ const Buckets = (props) => {
                                       <a title={"Enter"} className={"btn btn-danger"}
                                       style={{backgroundColor: "limegreen", borderColor: "limegreen"}}
                                       onClick={() => {
-                                        setEnteredBucket(term.id.id)
+                                        setEnteredBucket(term.id.id);
+                                        setEnteredBucketName(term.name);
                                         props.onEnter(term.id.id)}}>
                                           Enter</a>
                                   </td>
@@ -107,8 +109,11 @@ const Buckets = (props) => {
                   </table>
               </div>
           </div>
-              <div className={"container mm-4 mt-5"}>
-                  <h3 style={{textAlign: "center", color: "#00CED1"}}>Files</h3>
+          <br></br>
+          <hr></hr>
+          <br></br>
+              
+                  <h3 style={{textAlign: "center", color: "#00CED1", textDecoration: "underline"}}>Files in Bucket {enteredBucketName}</h3>
                   <br></br>
                   <div className={"row"}>
                       <div className={"row"}>
@@ -143,7 +148,6 @@ const Buckets = (props) => {
                           </table>
                       </div>
                   </div>
-              </div>
         </div>
     );
 }
